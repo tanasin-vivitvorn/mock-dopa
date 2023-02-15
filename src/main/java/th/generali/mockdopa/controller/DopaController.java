@@ -13,13 +13,11 @@ import th.generali.mockdopa.service.MockDopaService;
 import th.generali.mockdopa.controller.exception.DopaValidationException;
 import th.generali.mockdopa.message.ResponseMessage;
 import th.generali.mockdopa.message.DOPA.DopaRequest;
+import static th.generali.mockdopa.constants.StatusCode.SUCCESS;
 
 @RestController
 @CrossOrigin("*")
 public class DopaController {
-
-  private final String SUCCESS = "success";
-
 
   @Autowired
   private MockDopaService mockDopaService;
@@ -28,11 +26,13 @@ public class DopaController {
   public ResponseEntity<ResponseMessage> dopaCheck(@RequestBody DopaRequest dopaRequest) {
     try {
       mockDopaService.dopaCheck(dopaRequest);
-      return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(SUCCESS));
+      return ResponseEntity.status(HttpStatus.OK).body(new ResponseMessage(200, SUCCESS));
     } catch (DopaValidationException e) {
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(e.getMessage()));
+      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseMessage(400, e.getMessage()));
     } catch (ConnectException e) {
-      return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(new ResponseMessage(e.getMessage()));
+      return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(new ResponseMessage(500, e.getMessage()));
+    } catch (Exception e) {
+      return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(new ResponseMessage(500, e.getMessage()));
     }
   }
 }

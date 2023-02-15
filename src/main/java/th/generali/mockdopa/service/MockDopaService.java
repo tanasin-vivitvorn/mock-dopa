@@ -11,22 +11,11 @@ import org.springframework.util.StringUtils;
 import th.generali.mockdopa.controller.exception.DopaValidationException;
 import th.generali.mockdopa.message.DOPA.DopaRequest;
 
+import static th.generali.mockdopa.constants.StatusCode.*;
+import static th.generali.mockdopa.constants.RegexConstant.*;
+
 @Service
 public class MockDopaService {
-
-  private final String PID_IS_REQUIRED = "PID is required";
-  private final String INVALID_PID = "Invalid PID";
-  private final String LASER_IS_REQUIRED = "laser code is required";
-  private final String INVALID_LASER_CODE = "Invalid laser code";
-  private final String DOB_IS_REQUIRED = "dob is required";
-  private final String INVALID_DOB = "Invalid date of birth";
-  private final String TRANSACTIONID_IS_REQUIRED = "transactionId is required";
-  private final String FIRSTNAME_IS_REQUIRED = "firstname is required";
-  private final String LASTNAME_IS_REQUIRED = "lastname is required";
-
-  private final String ID_CARD_PATTERN = "\\d{13}";
-  private final String LASER_CODE_PATTERN = "[a-zA-Z]{2}\\d{10}";
-  private final String DOB_PATTERN = "\\d{4}-\\d{2}-\\d{2}";
 
   public void dopaCheck(DopaRequest dopaRequest) throws DopaValidationException, ConnectException {
     validateDopaRequest(dopaRequest);
@@ -36,9 +25,13 @@ public class MockDopaService {
   }
 
   private void validateDopaRequest(DopaRequest dopaRequest) throws DopaValidationException {
+    System.out.println("start");
     validateThaiId(dopaRequest.PID);
+    System.out.println("validateThaiId");
     validateLaserCode(dopaRequest.laser);
+    System.out.println("validateLaserCode");
     validateDateOfBirth(dopaRequest.dob);
+    System.out.println("validateDateOfBirth");
     if(StringUtils.isEmpty(dopaRequest.transactionId)){
       throw new DopaValidationException(TRANSACTIONID_IS_REQUIRED);
     }
@@ -48,6 +41,7 @@ public class MockDopaService {
     if(StringUtils.isEmpty(dopaRequest.lastname)){
       throw new DopaValidationException(LASTNAME_IS_REQUIRED);
     }
+    System.out.println("DONE");
   }
 
   private void validateThaiId(String id) throws DopaValidationException{
@@ -112,7 +106,6 @@ public class MockDopaService {
     if(monthOfBirth < 0 || monthOfBirth > 11){
       throw new DopaValidationException(INVALID_DOB);
     }
-
     if(dayOfBirth < 1 || dayOfBirth > 31){
       throw new DopaValidationException(INVALID_DOB);
     }

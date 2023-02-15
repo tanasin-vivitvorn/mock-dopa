@@ -1,14 +1,27 @@
 package th.generali.mockdopa.message;
 
-import lombok.Getter;
-import lombok.Setter;
-
-@Getter
-@Setter
 public class ResponseMessage {
-  private String message;
+  private int statusCode;
+  private String body;
 
-  public ResponseMessage(String message) {
-    this.message = message;
+  public ResponseMessage(int statusCode, String body) {
+    this.statusCode = statusCode;
+    this.body = body;
+  }
+
+  public int getStatusCode(){
+    return this.statusCode;
+  }
+
+  public void setStatusCode(int statusCode) {
+    this.statusCode = statusCode;
+  }
+
+  public String getBody(){
+    return this.body;
+  }
+
+  public void setBody(String body) {
+    this.body = body;
   }
 }

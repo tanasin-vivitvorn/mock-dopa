@@ -1,0 +1,6 @@
+generali-iam.signin.aws.amazon.com/console
+W8aMU-!9t4UsAgQ
+
+generali-nonprod
+ITFrontend
+ITFrontend+@+generali-nonprod
